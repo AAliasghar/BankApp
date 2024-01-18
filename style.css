@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #444;
+  background-color: #6fbd97;
+  height: 100vh;
+  padding: 2rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  /* opacity changes when user logged in */
+  opacity: 0;
+}
+
+.login__area {
+  display: flex;
+  justify-content: space-between;
+  border-style: dashed;
+  align-items: center;
+  /* vertical-align: middle; */
+  padding: 10rem 70rem;
+  display: block;
+  /* opacity become '0' when user logged in */
+  /* opacity: 0; */
+}
+
+input {
+  display: block;
+}
+
+.logo {
+  height: 5.25rem;
+}
