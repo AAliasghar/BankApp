@@ -95,3 +95,13 @@ const createUsernames = function (accounts) {
   });
 };
 createUsernames(accounts);
+
+// Calculating balance
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce(function (acc, currentBalance) {
+    return acc + currentBalance;
+  }, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+ calcDisplayBalance(account1.movements);
