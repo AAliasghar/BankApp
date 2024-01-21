@@ -26,16 +26,22 @@ nav {
   opacity: 0;
 }
 
+/* -------LOGIN-------- */
 .login__area {
   display: flex;
-  justify-content: space-between;
-  border-style: dashed;
+  flex-direction: column;
   align-items: center;
   /* vertical-align: middle; */
-  padding: 10rem 70rem;
-  display: block;
+  padding: 20rem 65rem;
   /* opacity become '0' when user logged in */
   /* opacity: 0; */
+}
+
+.welcome {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: black;
+  margin-bottom: 1rem;
 }
 
 input {
@@ -44,4 +50,58 @@ input {
 
 .logo {
   height: 5.25rem;
+  border-radius: 25px;
+  margin: 1rem;
 }
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__input {
+  border: none;
+  margin: 0.4rem;
+  padding: 0.5rem 2rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+  text-align: center;
+  width: 18rem;
+  border-radius: 10rem;
+  margin-right: 1rem;
+  color: #0bb73c;
+  border: 1px solid #0bb73c;
+  transition: all 0.8s;
+}
+
+.login__input:focus {
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+.login__input::placeholder {
+  color: #bbb;
+}
+
+.login__btn {
+  border: none;
+  background: #d4e9df;
+  font-size: 2.2rem;
+  color: #99888d;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 10rem;
+  width: 18rem;
+  margin-right: 2rem;
+  border: 1px solid #ccc;
+}
+
+.login__btn:hover,
+.login__btn:focus,
+.btn--sort:hover,
+.btn--sort:focus {
+  outline: none;
+  color: #777;
+}
+
+/* MAIN */
