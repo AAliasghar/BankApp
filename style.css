@@ -12,7 +12,7 @@ html {
 body {
   font-family: 'Poppins', sans-serif;
   color: #444;
-  background-color: #6fbd97;
+  background-color: #6eae8f;
   height: 100vh;
   padding: 2rem;
 }
@@ -29,7 +29,7 @@ body {
 }
 
 .welcome {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 500;
   color: black;
   margin-bottom: 1rem;
@@ -107,7 +107,7 @@ nav {
 
 .logout__btn {
   border: none;
-  background: #78e1ae;
+  background: #7f9c66;
   font-size: 2rem;
   color: rgb(41, 32, 32);
   cursor: pointer;
@@ -115,7 +115,7 @@ nav {
   border-radius: 10rem;
   width: 14rem;
   margin-right: 2rem;
-  border: 1px solid #cccccc;
+  border: 1px solid #b2b4ae;
 }
 
 /* MAIN */
@@ -161,7 +161,8 @@ nav {
 /* MOVEMENTS */
 .movements {
   grid-row: 2 / span 3;
-  background-color: #b1d5c4;
+  /* background-color: #b1d5c4; */
+  background-image: linear-gradient(to top left, #72877f, #84a16b);
   border-radius: 1rem;
   overflow: scroll;
 }
@@ -210,6 +211,7 @@ nav {
   align-items: baseline;
   padding: 0 0.3rem;
   margin-top: 1rem;
+  background-image: linear-gradient(to top left, #72877f, #84a16b);
 }
 
 .summary__label {
@@ -250,15 +252,15 @@ nav {
 }
 
 .operation--transfer {
-  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+  background-image: linear-gradient(to top left, #ca9c37, #b39f52);
 }
 
 .operation--loan {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  background-image: linear-gradient(to top left, #3c9975, #8cc15e);
 }
 
 .operation--close {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  background-image: linear-gradient(to top left, #992e49, #ff585f);
 }
 
 h2 {
