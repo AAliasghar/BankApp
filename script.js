@@ -104,4 +104,26 @@ const calcDisplayBalance = function (movements) {
   labelBalance.textContent = `${balance}€`;
 };
 
- calcDisplayBalance(account1.movements);
+calcDisplayBalance(account1.movements);
+
+// -----Display Summary--------
+const calcDisplaySummary = function (movements) {
+  // Sum_In
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, crr) => acc + crr);
+  labelSumIn.textContent = `${income}€`;
+
+  // Sum_Out
+  const withdrawal = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, crr) => acc + crr);
+  labelSumOut.textContent = `${withdrawal}€`;
+
+  // Interest
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 0.015) // 1.5% Interest on Deposits
+    .reduce((acc, crr) => acc + crr);
+  labelSumInterest.textContent = `${interest}€`;
+};
