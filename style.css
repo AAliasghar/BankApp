@@ -11,8 +11,8 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-  color: #444;
-  background-color: #6eae8f;
+  color: #383838;
+  background-color: #4e7a65;
   height: 100vh;
   padding: 2rem;
 }
@@ -27,11 +27,16 @@ body {
   /* opacity become '0' when user logged in */
   /* opacity: 0; */
 }
-
+.welcome__login{
+    font-size: 1.5rem;
+  font-weight: 500;
+  color: #383838;
+  margin-bottom: 1rem;
+}
 .welcome {
   font-size: 1.5rem;
   font-weight: 500;
-  color: black;
+  color: #383838;
   margin-bottom: 1rem;
 }
 
@@ -83,7 +88,7 @@ input {
   transition: all 0.3s;
   border-radius: 10rem;
   width: 18rem;
-  margin-right: 2rem;
+  margin: 0.4rem;
   border: 1px solid #ccc;
 }
 
@@ -105,11 +110,11 @@ nav {
   /* opacity changes when user logged in */
 }
 
-.logout__btn {
+.logout {
   border: none;
   background: #7f9c66;
   font-size: 2rem;
-  color: rgb(41, 32, 32);
+  color: #383838;
   cursor: pointer;
   transition: all 0.3s;
   border-radius: 10rem;
@@ -228,7 +233,7 @@ nav {
 
 .summary__value--in,
 .summary__value--interest {
-  color: #66c873;
+  color: #1b5022;
 }
 
 .summary__value--out {

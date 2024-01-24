@@ -32,6 +32,7 @@ const account4 = {
 const accounts = [account1, account2, account3, account4];
 
 // Elements
+const labelWelcomeLogin = document.querySelector('.welcome__login');
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -57,14 +58,27 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// ---Create userNames-----------
+const createUsernames = function (accounts) {
+  accounts.forEach(function (account) {
+    // looping throught accounts and each account userName is...
+    account.userName = account.owner // adding new property useName to object of each account element
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUsernames(accounts);
+
 // --- function to display Movements Deposit/Witdraw
 
-const displayMovements = function (movements) {
+const displayMovements = function (account) {
   // Empty existing movements
   containerMovements.innerHTML = '';
 
   // Loop through array of Data received and Display the content in movements class in HTML
-  movements.forEach(function (mov, i) {
+  account.movements.forEach(function (mov, i) {
     // -Setting type of movement
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -81,49 +95,70 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
-// ---Create userNames-----------
-const createUsernames = function (accounts) {
-  accounts.forEach(function (account) {
-    // looping throught accounts and each account userName is...
-    account.userName = account.owner // adding new property useName to object of each account element
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
-  });
-};
-createUsernames(accounts);
-
 // Calculating balance
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce(function (acc, currentBalance) {
+const calcDisplayBalance = function (account) {
+  const balance = account.movements.reduce(function (acc, currentBalance) {
     return acc + currentBalance;
   }, 0);
   labelBalance.textContent = `${balance}€`;
 };
 
-calcDisplayBalance(account1.movements);
-
 // -----Display Summary--------
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (account) {
   // Sum_In
-  const income = movements
+  const income = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, crr) => acc + crr);
   labelSumIn.textContent = `${income}€`;
 
   // Sum_Out
-  const withdrawal = movements
+  const withdrawal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, crr) => acc + crr);
   labelSumOut.textContent = `${withdrawal}€`;
 
   // Interest
-  const interest = movements
+  const interest = account.movements
     .filter(mov => mov > 0)
     .map(deposit => deposit * 0.015) // 1.5% Interest on Deposits
     .reduce((acc, crr) => acc + crr);
   labelSumInterest.textContent = `${interest}€`;
 };
+
+// ----LOGIN_IMPLEMENTATION------
+
+// Account which login will set as current account
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.userName === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // go to accountDetails Page
+    window.location.href = 'accountDetails.html';
+
+    // Display UI and Welcome Message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+
+    // Display Movements
+    displayMovements(currentAccount.movements);
+
+    // // Display Balance
+    calcDisplayBalance(currentAccount.movements);
+
+    // //Display Summary
+    calcDisplaySummary(currentAccount);
+  } else {
+    inputLoginPin.value = 'Invalid PIN';
+    inputLoginUsername.value = 'Invalid USERNAME';
+    console.log('Wrong');
+  }
+});
