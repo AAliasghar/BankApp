@@ -27,19 +27,19 @@ body {
   /* opacity become '0' when user logged in */
   /* opacity: 0; */
 }
-.welcome__login{
-    font-size: 1.5rem;
+.welcome__login {
+  font-size: 1.5rem;
   font-weight: 500;
   color: #383838;
   margin-bottom: 1rem;
 }
 
-.navbar{
+.navbar {
   opacity: 0;
 }
 
 .welcome {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 500;
   color: #383838;
   margin-bottom: 1rem;
@@ -115,7 +115,7 @@ nav {
   /* opacity changes when user logged in */
 }
 
-.logout {
+.logout__btn {
   border: none;
   background: #7f9c66;
   font-size: 2rem;

@@ -47,11 +47,12 @@ const containerNav = document.querySelector('.navbar');
 const conatinerLogin = document.querySelector('.login__area');
 
 const btnLogin = document.querySelector('.login__btn');
-const btnLogout = document.querySelector('.logout');
+const btnLogout = document.querySelector('.logout__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
 const btnSort = document.querySelector('.btn--sort');
+const btnDetails = document.querySelector('.btn_details');
 
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
@@ -101,10 +102,10 @@ const displayMovements = function (account) {
 
 // Calculating balance
 const calcDisplayBalance = function (account) {
-  const balance = account.movements.reduce(function (acc, currentBalance) {
+  account.balance = account.movements.reduce(function (acc, currentBalance) {
     return acc + currentBalance;
   }, 0);
-  labelBalance.textContent = `${balance}€`;
+  labelBalance.textContent = `${account.balance}€`;
 };
 
 // -----Display Summary--------
@@ -157,7 +158,8 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Empty existing conatinerLogin
-    conatinerLogin.innerHTML = '';
+    conatinerLogin.parentNode.removeChild(conatinerLogin);
+    // conatinerLogin.innerHTML = '';
     containerNav.style.opacity = 100;
     containerApp.style.opacity = 100;
 
@@ -171,5 +173,35 @@ btnLogin.addEventListener('click', function (e) {
   } else {
     inputLoginPin.value = 'Invalid PIN';
     inputLoginUsername.value = 'Invalid USERNAME';
+  }
+});
+
+// IMPLEMENT TRANSFER
+btnTransfer.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+
+  const receiverAcc = accounts.find(
+    acc => acc.userName === inputTransferTo.value
+  );
+  console.log(amount, receiverAcc);
+  // TO make fileds empty
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc.userName !== currentAccount.userName
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    console.log('Transfer Valid');
+    console.log(receiverAcc);
+
+    // Update UI
+    updateUI(currentAccount);
   }
 });
