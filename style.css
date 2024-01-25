@@ -33,6 +33,11 @@ body {
   color: #383838;
   margin-bottom: 1rem;
 }
+
+.navbar{
+  opacity: 0;
+}
+
 .welcome {
   font-size: 1.5rem;
   font-weight: 500;
@@ -135,7 +140,7 @@ nav {
 
   /* NOTE This creates the fade in/out anumation */
   /* In this act as Login In/Out --> Opacity:0 mean logout */
-  /* opacity: 0; */
+  opacity: 0;
   transition: all 1s;
 }
 

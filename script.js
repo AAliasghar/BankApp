@@ -43,8 +43,11 @@ const labelTimer = document.querySelector('.timer');
 
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
+const containerNav = document.querySelector('.navbar');
+const conatinerLogin = document.querySelector('.login__area');
 
 const btnLogin = document.querySelector('.login__btn');
+const btnLogout = document.querySelector('.logout');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
@@ -94,6 +97,7 @@ const displayMovements = function (account) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+// displayMovements(currentAccount)
 
 // Calculating balance
 const calcDisplayBalance = function (account) {
@@ -125,6 +129,18 @@ const calcDisplaySummary = function (account) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
+// Update UI
+const updateUI = function (account) {
+  // Display Movements
+  displayMovements(account);
+
+  // Display Balance
+  calcDisplayBalance(account);
+
+  //Display Summary
+  calcDisplaySummary(account);
+};
+
 // ----LOGIN_IMPLEMENTATION------
 
 // Account which login will set as current account
@@ -140,25 +156,20 @@ btnLogin.addEventListener('click', function (e) {
   console.log(currentAccount);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    // go to accountDetails Page
-    window.location.href = 'accountDetails.html';
+    // Empty existing conatinerLogin
+    conatinerLogin.innerHTML = '';
+    containerNav.style.opacity = 100;
+    containerApp.style.opacity = 100;
 
     // Display UI and Welcome Message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
 
-    // Display Movements
-    displayMovements(currentAccount.movements);
-
-    // // Display Balance
-    calcDisplayBalance(currentAccount.movements);
-
-    // //Display Summary
-    calcDisplaySummary(currentAccount);
+    // Update UI
+    updateUI(currentAccount);
   } else {
     inputLoginPin.value = 'Invalid PIN';
     inputLoginUsername.value = 'Invalid USERNAME';
-    console.log('Wrong');
   }
 });
