@@ -28,7 +28,7 @@ body {
   /* opacity: 0; */
 }
 .welcome__login {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 500;
   color: #383838;
   margin-bottom: 1rem;
@@ -39,7 +39,7 @@ body {
 }
 
 .welcome {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 500;
   color: #383838;
   margin-bottom: 1rem;
@@ -116,16 +116,16 @@ nav {
 }
 
 .logout__btn {
-  border: none;
-  background: #7f9c66;
-  font-size: 2rem;
+  background-image: linear-gradient(to top left, #39b385, #718c5a);
+  font-size: 1.8rem;
   color: #383838;
   cursor: pointer;
   transition: all 0.3s;
-  border-radius: 10rem;
-  width: 14rem;
+  border-radius: 12rem;
+  width: 9rem;
+  padding: 0.4rem;
   margin-right: 2rem;
-  border: 1px solid #b2b4ae;
+  border: 1px solid #7f9c66;
 }
 
 /* MAIN */
@@ -166,6 +166,26 @@ nav {
 .balance__value {
   font-size: 4.5rem;
   font-weight: 400;
+}
+
+.loan_not_approved {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: -0.2rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  color: inherit;
+  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.loan_approved {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: -0.2rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  color: inherit;
+ background-image: linear-gradient(to top left, #39b385, #9be15d);
 }
 
 /* MOVEMENTS */

@@ -45,6 +45,7 @@ const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
 const containerNav = document.querySelector('.navbar');
 const conatinerLogin = document.querySelector('.login__area');
+const containerBalance = document.querySelector('.balance_div');
 
 const btnLogin = document.querySelector('.login__btn');
 const btnLogout = document.querySelector('.logout__btn');
@@ -170,6 +171,8 @@ btnLogin.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+    // Empty Inputs
+    inputLoginUsername.value = inputLoginPin.value = '';
   } else {
     inputLoginPin.value = 'Invalid PIN';
     inputLoginUsername.value = 'Invalid USERNAME';
@@ -206,10 +209,10 @@ btnTransfer.addEventListener('click', function (event) {
   }
 });
 
-// Close Account function
+// Close Account
 
 btnClose.addEventListener('click', function (event) {
-  event.defaultPrevented();
+  event.preventDefault();
 
   if (
     inputCloseUsername.value === currentAccount.userName &&
@@ -227,10 +230,36 @@ btnClose.addEventListener('click', function (event) {
 
     //
     // Empty existing conatinerLogin
+    document.body.appendChild(conatinerLogin);
     containerApp.parentNode.removeChild(containerApp);
     containerNav.parentNode.removeChild(containerNav);
-    conatinerLogin.parentNode.appendChild(conatinerLogin);
 
     console.log(accounts);
+  }
+});
+
+// REQUEST LOAN
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Loan approval Condition -> If there is at least of deposit with 20% of Loan request amount then
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov > amount * 0.2)) {
+    // Add Positive movement to UI
+    currentAccount.movements.push(amount);
+    const html = `<div class ="balance"><p class="loan_approved">Loan Approved</p></div>`;
+    containerBalance.insertAdjacentHTML('afterend', html);
+    // UPDATE UI
+    updateUI(currentAccount);
+
+    // Clear Input Field
+    inputLoanAmount.value = '';
+  } else {
+    const html = `<div class ="balance"><p class="loan_not_approved">Loan Not Approved</p></div>`;
+    containerBalance.insertAdjacentHTML('afterend', html);
+    inputLoanAmount.value = '';
+    updateUI(currentAccount);
   }
 });
