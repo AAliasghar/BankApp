@@ -78,12 +78,16 @@ createUsernames(accounts);
 
 // --- function to display Movements Deposit/Witdraw
 
-const displayMovements = function (account) {
+const displayMovements = function (account, sort = false) {
   // Empty existing movements
   containerMovements.innerHTML = '';
 
+  const sortedMovements = sort
+    ? account.movements.slice().sort((a, b) => b - a)
+    : account.movements;
+
   // Loop through array of Data received and Display the content in movements class in HTML
-  account.movements.forEach(function (mov, i) {
+  sortedMovements.forEach(function (mov, i) {
     // -Setting type of movement
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -249,7 +253,7 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov > amount * 0.2)) {
     // Add Positive movement to UI
     currentAccount.movements.push(amount);
-    const html = `<div class ="balance"><p class="loan_approved">Loan Approved</p></div>`;
+    const html = `<div class ="balance"><p class="loan_approved">${amount}€ Loan Approved</p></div>`;
     containerBalance.insertAdjacentHTML('afterend', html);
     // UPDATE UI
     updateUI(currentAccount);
@@ -262,4 +266,13 @@ btnLoan.addEventListener('click', function (e) {
     inputLoanAmount.value = '';
     updateUI(currentAccount);
   }
+});
+
+// SORTING
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
 });
