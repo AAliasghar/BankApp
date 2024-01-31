@@ -96,7 +96,7 @@ const displayMovements = function (account, sort = false) {
           <div class="movements__type movements__type--${type}">
           ${i + 1} ${type}</div>
           <div class="movements__date">3 days ago</div>
-          <div class="movements__value">${mov}€</div>
+          <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
       `;
     // Inserting in html class after element tag start so any child element will display after previous one therefore latest stay all top
@@ -110,7 +110,7 @@ const calcDisplayBalance = function (account) {
   account.balance = account.movements.reduce(function (acc, currentBalance) {
     return acc + currentBalance;
   }, 0);
-  labelBalance.textContent = `${account.balance}€`;
+  labelBalance.textContent = `${account.balance.toFixed(2)}€`;
 };
 
 // -----Display Summary--------
@@ -119,20 +119,20 @@ const calcDisplaySummary = function (account) {
   const income = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, crr) => acc + crr);
-  labelSumIn.textContent = `${income}€`;
+  labelSumIn.textContent = `${income.toFixed(2)}€`;
 
   // Sum_Out
   const withdrawal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, crr) => acc + crr);
-  labelSumOut.textContent = `${withdrawal}€`;
+  labelSumOut.textContent = `${withdrawal.toFixed(2)}€`;
 
   // Interest
   const interest = account.movements
     .filter(mov => mov > 0)
     .map(deposit => deposit * 0.015) // 1.5% Interest on Deposits
     .reduce((acc, crr) => acc + crr);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 // Update UI
@@ -187,7 +187,7 @@ btnLogin.addEventListener('click', function (e) {
 btnTransfer.addEventListener('click', function (event) {
   event.preventDefault();
 
-  const amount = Number(inputTransferAmount.value);
+  const amount = Math.floor(inputTransferAmount.value);
 
   const receiverAcc = accounts.find(
     acc => acc.userName === inputTransferTo.value
@@ -248,7 +248,7 @@ btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
   // Loan approval Condition -> If there is at least of deposit with 20% of Loan request amount then
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov > amount * 0.2)) {
     // Add Positive movement to UI
