@@ -129,7 +129,7 @@ const displayMovements = function (account, sort = false) {
   // Loop through array of Data received and Display the content in movements class in HTML
   sortedMovements.forEach(function (mov, i) {
     //
-    const date = new Date(acc.movementsDates[i]);
+    const date = new Date(account.movementsDates[i]);
     const day = `${date.getDate()}`.padStart(2, 0);
     const month = `${date.getMonth() + 1}`.padStart(2, 0);
     const year = date.getFullYear();
@@ -142,7 +142,7 @@ const displayMovements = function (account, sort = false) {
      <div class="movements__row">
           <div class="movements__type movements__type--${type}">
           ${i + 1} ${type}</div>
-          <div class="movements__date">3 Days</div>
+          <div class="movements__date">${displayDate}</div>
           <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
       `;
@@ -262,6 +262,10 @@ btnTransfer.addEventListener('click', function (event) {
     console.log('Transfer Valid');
     console.log(receiverAcc);
 
+    // Add Date Transfer
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -309,6 +313,10 @@ btnLoan.addEventListener('click', function (e) {
     currentAccount.movements.push(amount);
     const html = `<div class ="balance"><p class="loan_approved">${amount}€ Loan Approved</p></div>`;
     containerBalance.insertAdjacentHTML('afterend', html);
+
+    // Add Date Loan
+    currentAccount.movementsDates.push(new Date().toISOString());
+
     // UPDATE UI
     updateUI(currentAccount);
 
