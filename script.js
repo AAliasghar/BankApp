@@ -129,7 +129,11 @@ const displayMovements = function (account, sort = false) {
   // Loop through array of Data received and Display the content in movements class in HTML
   sortedMovements.forEach(function (mov, i) {
     //
-    // acc.
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    const displayDate = `${day}/${month}/${year}`;
 
     // -Setting type of movement
     const type = mov > 0 ? 'deposit' : 'withdrawal';
@@ -138,7 +142,7 @@ const displayMovements = function (account, sort = false) {
      <div class="movements__row">
           <div class="movements__type movements__type--${type}">
           ${i + 1} ${type}</div>
-          <div class="movements__date">3 days ago</div>
+          <div class="movements__date">3 Days</div>
           <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
       `;
