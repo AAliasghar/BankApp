@@ -12,9 +12,9 @@ const account1 = {
     '2022-12-25T06:04:23.907Z',
     '2023-02-25T14:18:46.235Z',
     '2023-02-05T16:33:06.386Z',
-    '2023-05-10T14:43:26.374Z',
-    '2023-06-25T18:49:59.371Z',
-    '2023-07-26T12:01:20.894Z',
+    '2024-01-27T17:01:17.194Z',
+    '2024-02-01T23:36:17.929Z',
+    '2024-02-03T10:51:36.790Z',
   ],
 };
 
@@ -116,6 +116,23 @@ const createUsernames = function (accounts) {
 };
 createUsernames(accounts);
 
+// Calculate current date and Movement Date
+const calcMovementsDate = function (date) {
+  const calcPassedDays = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  const daysPassed = calcPassedDays(new Date(), date);
+
+  if (daysPassed === 0) return 'Today';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed < 7) return `${daysPassed} days ago`;
+  else {
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
+
 // --- function to display Movements Deposit/Witdraw
 
 const displayMovements = function (account, sort = false) {
@@ -128,15 +145,13 @@ const displayMovements = function (account, sort = false) {
 
   // Loop through array of Data received and Display the content in movements class in HTML
   sortedMovements.forEach(function (mov, i) {
-    //
-    const date = new Date(account.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
-
     // -Setting type of movement
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    // Dates
+    const date = new Date(account.movementsDates[i]);
+
+    const displayDate = calcMovementsDate(date);
 
     const html = `
      <div class="movements__row">
@@ -217,7 +232,7 @@ btnLogin.addEventListener('click', function (e) {
     // Current Date
     const nowDate = new Date();
     const year = nowDate.getFullYear();
-    const month = `${nowDate.getMonth()}`.padStart(2, 0);
+    const month = `${nowDate.getMonth() + 1}`.padStart(2, 0);
     const day = `${nowDate.getDate()}`.padStart(2, 0);
     const hour = `${nowDate.getHours()}`.padStart(2, 0);
     const min = `${nowDate.getMinutes()}`.padStart(2, 0);
