@@ -230,14 +230,22 @@ btnLogin.addEventListener('click', function (e) {
     // conatinerLogin.innerHTML = '';
     containerNav.style.opacity = 100;
     containerApp.style.opacity = 100;
-    // Current Date
-    const nowDate = new Date();
-    const year = nowDate.getFullYear();
-    const month = `${nowDate.getMonth() + 1}`.padStart(2, 0);
-    const day = `${nowDate.getDate()}`.padStart(2, 0);
-    const hour = `${nowDate.getHours()}`.padStart(2, 0);
-    const min = `${nowDate.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}/, ${hour}:${min}`;
+  
+    // create current date and time
+    const nowInt = new Date();
+    const options = {
+      hour: 'numeric',
+      mintute: 'numeric',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      weekday: 'long',
+    };
+   
+    const locale = currentAccount.locale;
+    labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(
+      now
+    );
     // Display UI and Welcome Message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
