@@ -16,6 +16,7 @@ const account1 = {
     '2024-02-01T23:36:17.929Z',
     '2024-02-03T10:51:36.790Z',
   ],
+  locale: 'de-DE',
 };
 
 const account2 = {
@@ -33,6 +34,7 @@ const account2 = {
     '2023-07-25T18:49:59.371Z',
     '2023-08-26T12:01:20.894Z',
   ],
+  locale: 'de-DE',
 };
 
 const account3 = {
@@ -50,6 +52,7 @@ const account3 = {
     '2023-06-25T18:49:59.371Z',
     '2023-07-26T12:01:20.894Z',
   ],
+  locale:'pt-PT'
 };
 
 const account4 = {
@@ -67,6 +70,7 @@ const account4 = {
     '2023-08-25T18:49:59.371Z',
     '2023-09-26T12:01:20.894Z',
   ],
+  locale: 'en-US',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -117,7 +121,7 @@ const createUsernames = function (accounts) {
 createUsernames(accounts);
 
 // Calculate current date and Movement Date
-const calcMovementsDate = function (date) {
+const calcMovementsDate = function (date,locale) {
   const calcPassedDays = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   const daysPassed = calcPassedDays(new Date(), date);
@@ -126,10 +130,7 @@ const calcMovementsDate = function (date) {
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed < 7) return `${daysPassed} days ago`;
   else {
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(locale).format(date)
   }
 };
 
@@ -151,7 +152,7 @@ const displayMovements = function (account, sort = false) {
     // Dates
     const date = new Date(account.movementsDates[i]);
 
-    const displayDate = calcMovementsDate(date);
+    const displayDate = calcMovementsDate(date,account.locale);
 
     const html = `
      <div class="movements__row">
