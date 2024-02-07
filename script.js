@@ -17,6 +17,7 @@ const account1 = {
     '2024-02-03T10:51:36.790Z',
   ],
   locale: 'de-DE',
+  currency: 'EUR',
 };
 
 const account2 = {
@@ -35,6 +36,7 @@ const account2 = {
     '2023-08-26T12:01:20.894Z',
   ],
   locale: 'de-DE',
+  currency: 'EUR',
 };
 
 const account3 = {
@@ -52,7 +54,8 @@ const account3 = {
     '2023-06-25T18:49:59.371Z',
     '2023-07-26T12:01:20.894Z',
   ],
-  locale:'pt-PT'
+  locale: 'pt-PT',
+  currency: 'EUR',
 };
 
 const account4 = {
@@ -71,6 +74,7 @@ const account4 = {
     '2023-09-26T12:01:20.894Z',
   ],
   locale: 'en-US',
+  currency: 'USD',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -121,7 +125,7 @@ const createUsernames = function (accounts) {
 createUsernames(accounts);
 
 // Calculate current date and Movement Date
-const calcMovementsDate = function (date,locale) {
+const calcMovementsDate = function (date, locale) {
   const calcPassedDays = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   const daysPassed = calcPassedDays(new Date(), date);
@@ -130,8 +134,16 @@ const calcMovementsDate = function (date,locale) {
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed < 7) return `${daysPassed} days ago`;
   else {
-    return new Intl.DateTimeFormat(locale).format(date)
+    return new Intl.DateTimeFormat(locale).format(date);
   }
+};
+
+// Format Currency
+const formatCurrency = function (value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
 };
 
 // --- function to display Movements Deposit/Witdraw
@@ -152,14 +164,20 @@ const displayMovements = function (account, sort = false) {
     // Dates
     const date = new Date(account.movementsDates[i]);
 
-    const displayDate = calcMovementsDate(date,account.locale);
+    const displayDate = calcMovementsDate(date, account.locale);
+    // Currency format
+    const formatCurrencyMovemenets = formatCurrency(
+      mov,
+      account.locale,
+      account.currency
+    );
 
     const html = `
      <div class="movements__row">
           <div class="movements__type movements__type--${type}">
           ${i + 1} ${type}</div>
           <div class="movements__date">${displayDate}</div>
-          <div class="movements__value">${mov.toFixed(2)}€</div>
+          <div class="movements__value">${formatCurrencyMovemenets}</div>
       </div>
       `;
     // Inserting in html class after element tag start so any child element will display after previous one therefore latest stay all top
@@ -173,7 +191,12 @@ const calcDisplayBalance = function (account) {
   account.balance = account.movements.reduce(function (acc, currentBalance) {
     return acc + currentBalance;
   }, 0);
-  labelBalance.textContent = `${account.balance.toFixed(2)}€`;
+   const formattedBalance = formatCurrency(
+     account.balance,
+     account.locale,
+     account.currency
+   );
+  labelBalance.textContent = `${formattedBalance}`;
 };
 
 // -----Display Summary--------
@@ -182,20 +205,33 @@ const calcDisplaySummary = function (account) {
   const income = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, crr) => acc + crr);
-  labelSumIn.textContent = `${income.toFixed(2)}€`;
+      const formattedIncome = formatCurrency(
+        income,
+        account.locale,
+        account.currency
+      );
+  labelSumIn.textContent = `${formattedIncome}`;
 
   // Sum_Out
   const withdrawal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, crr) => acc + crr);
-  labelSumOut.textContent = `${withdrawal.toFixed(2)}€`;
+  labelSumOut.textContent = formatCurrency(
+    withdrawal,
+    account.locale,
+    account.currency
+  );
 
   // Interest
   const interest = account.movements
     .filter(mov => mov > 0)
     .map(deposit => deposit * 0.015) // 1.5% Interest on Deposits
     .reduce((acc, crr) => acc + crr);
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumInterest.textContent = formatCurrency(
+    interest,
+    account.locale,
+    account.currency
+  );
 };
 
 // Update UI
@@ -230,9 +266,9 @@ btnLogin.addEventListener('click', function (e) {
     // conatinerLogin.innerHTML = '';
     containerNav.style.opacity = 100;
     containerApp.style.opacity = 100;
-  
+
     // create current date and time
-    const nowInt = new Date();
+    const now = new Date();
     const options = {
       hour: 'numeric',
       mintute: 'numeric',
@@ -241,7 +277,6 @@ btnLogin.addEventListener('click', function (e) {
       year: 'numeric',
       weekday: 'long',
     };
-   
     const locale = currentAccount.locale;
     labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(
       now
