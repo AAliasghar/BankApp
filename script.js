@@ -191,11 +191,11 @@ const calcDisplayBalance = function (account) {
   account.balance = account.movements.reduce(function (acc, currentBalance) {
     return acc + currentBalance;
   }, 0);
-   const formattedBalance = formatCurrency(
-     account.balance,
-     account.locale,
-     account.currency
-   );
+  const formattedBalance = formatCurrency(
+    account.balance,
+    account.locale,
+    account.currency
+  );
   labelBalance.textContent = `${formattedBalance}`;
 };
 
@@ -205,11 +205,11 @@ const calcDisplaySummary = function (account) {
   const income = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, crr) => acc + crr);
-      const formattedIncome = formatCurrency(
-        income,
-        account.locale,
-        account.currency
-      );
+  const formattedIncome = formatCurrency(
+    income,
+    account.locale,
+    account.currency
+  );
   labelSumIn.textContent = `${formattedIncome}`;
 
   // Sum_Out
@@ -368,17 +368,19 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov > amount * 0.2)) {
-    // Add Positive movement to UI
-    currentAccount.movements.push(amount);
-    const html = `<div class ="balance"><p class="loan_approved">${amount}€ Loan Approved</p></div>`;
-    containerBalance.insertAdjacentHTML('afterend', html);
+    // It takes few seconds to approve the loan
+    setTimeout(function () {
+      // Add Positive movement to UI
+      currentAccount.movements.push(amount);
+      const html = `<div class ="balance"><p class="loan_approved">${amount}€ Loan Approved</p></div>`;
+      containerBalance.insertAdjacentHTML('afterend', html);
 
-    // Add Date Loan
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add Date Loan
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // UPDATE UI
-    updateUI(currentAccount);
-
+      // UPDATE UI
+      updateUI(currentAccount);
+    }, 3000);
     // Clear Input Field
     inputLoanAmount.value = '';
   } else {
