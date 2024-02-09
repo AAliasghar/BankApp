@@ -246,10 +246,10 @@ const updateUI = function (account) {
   calcDisplaySummary(account);
 };
 
-// ----LOGIN_IMPLEMENTATION------
+// ----LOGIN_LOGOUT_IMPLEMENTATION------
 
 // Account which login will set as current account
-let currentAccount,timer;
+let currentAccount, timer;
 
 // startLogOutTIme
 const startLogOutTimer = function () {
@@ -280,6 +280,7 @@ const startLogOutTimer = function () {
   // },1000)
 };
 
+// LOGIN
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
   e.preventDefault();
@@ -328,6 +329,17 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
+// LOGOUT
+
+btnLogout.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+  containerNav.style.opacity = 0;
+  containerApp.style.opacity = 0;
+  // Add existing conatinerLogin
+  document.body.insertBefore(conatinerLogin, document.body.firstChild);
+});
+
 // IMPLEMENT TRANSFER
 btnTransfer.addEventListener('click', function (event) {
   event.preventDefault();
@@ -360,7 +372,7 @@ btnTransfer.addEventListener('click', function (event) {
     // Update UI
     updateUI(currentAccount);
     // user new action make timer reset
-    clearInterval(timer)
+    clearInterval(timer);
     timer = startLogOutTimer();
   }
 });
