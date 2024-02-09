@@ -249,7 +249,36 @@ const updateUI = function (account) {
 // ----LOGIN_IMPLEMENTATION------
 
 // Account which login will set as current account
-let currentAccount;
+let currentAccount,timer;
+
+// startLogOutTIme
+const startLogOutTimer = function () {
+  const tick = () => {
+    // changing seoncds to Min:Sec
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    // In each call, print remaining time to the UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // when time o, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+    // Decrease 1s
+    time--;
+  };
+  let time = 120;
+  // call immediately
+  tick();
+  // Call the timer every second
+  const timer = setInterval(tick, 1000);
+
+  // we need it return to be used in call back in login
+  return timer;
+  // },1000)
+};
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -290,6 +319,9 @@ btnLogin.addEventListener('click', function (e) {
     updateUI(currentAccount);
     // Empty Inputs
     inputLoginUsername.value = inputLoginPin.value = '';
+    // Whenever user login previous timer stops and new one start
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
   } else {
     inputLoginPin.value = 'Invalid PIN';
     inputLoginUsername.value = 'Invalid USERNAME';
@@ -327,6 +359,9 @@ btnTransfer.addEventListener('click', function (event) {
 
     // Update UI
     updateUI(currentAccount);
+    // user new action make timer reset
+    clearInterval(timer)
+    timer = startLogOutTimer();
   }
 });
 
@@ -380,6 +415,9 @@ btnLoan.addEventListener('click', function (e) {
 
       // UPDATE UI
       updateUI(currentAccount);
+      // user new action make timer reset
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }, 3000);
     // Clear Input Field
     inputLoanAmount.value = '';
