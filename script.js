@@ -449,3 +449,49 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
+
+// --------------------------------- PAGE_INTRO ------------------------------------------
+
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+const btnCloseModal = document.querySelector('.btn--close-modal');
+const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector('.nav');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabContent = document.querySelectorAll('.operations__content');
+
+//
+// Modal window
+
+//NodeList-> Two btns to open an account one on top of page one bottom
+//NodeList objects are collections of nodes, usually returned by properties
+console.log(btnsOpenModal); //[a.nav__link.nav__link--btn.btn--show-modal, button.btn.btn--show-modal]
+
+const openModal = function (e) {
+  e.preventDefault(); // Prevent defalut nehavior of # //
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
+
+const closeModal = function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
+
+// looping through all elements with btnsOpenModal and add 'addEventListener'
+
+btnsOpenModal.forEach(function (btnsOpenModal) {
+  // here is not an array so there is no index 'i' but it loops through all
+  btnsOpenModal.addEventListener('click', openModal);
+});
+
+btnCloseModal.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  }
+});
+
